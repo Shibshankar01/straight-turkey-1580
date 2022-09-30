@@ -1,10 +1,11 @@
 package com.CIMS.bean;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Crime {
 //	private int crimeId;
-	private LocalDate date;
+	private Date date;
 	private String description;
 	private String detailDescription;
 	private int areaId;
@@ -15,7 +16,7 @@ public class Crime {
 		
 	}
 
-	public Crime(LocalDate date, String description, String detailDescription, int areaId, int policeStationId,
+	public Crime(Date date, String description, String detailDescription, int areaId, int policeStationId,
 			String status) {
 		super();
 		this.date = date;
@@ -26,11 +27,11 @@ public class Crime {
 		this.status = status;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
