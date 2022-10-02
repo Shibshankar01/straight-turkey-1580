@@ -93,6 +93,38 @@ public class CriminalDAOImplementation implements CriminalDAO{
 		}
 		return criminals;
 	}
+
+	@Override
+	public int addACriminal(Criminal criminal) throws CriminalException {
+		int x = 0;
+		
+		try(Connection conn = ConnectionClass.getConnection()){
+			PreparedStatement ps = null;
+			if(criminal.getPoliceStationFirstArrested()!=0) {
+				ps = conn.prepareStatement("insert into criminal(name, age, gender, address, mark, policestationfirstarrestedid) values(?, ?, ?, ?, ?, ?);");
+				ps.setString(1, criminal.getName());
+				ps.setInt(2, criminal.getAge());
+				ps.setString(3, criminal.getGender());
+				ps.setString(4, criminal.getAddress());
+				ps.setString(5, criminal.getMark());
+				ps.setInt(6, criminal.getPoliceStationFirstArrested());
+			}
+			else {
+				ps = conn.prepareStatement("insert into criminal(name, age, gender, address, mark) values(?, ?, ?, ?, ?);");
+				ps.setString(1, criminal.getName());
+				ps.setInt(2, criminal.getAge());
+				ps.setString(3, criminal.getGender());
+				ps.setString(4, criminal.getAddress());
+				ps.setString(5, criminal.getMark());
+			}			
+			x = ps.executeUpdate();
+			if(x==0)
+				throw new CriminalException("Criminal not inserted..");
+		}catch(SQLException e) {
+			throw new CriminalException(e.getMessage());
+		}
+		return x;
+	}
 	
 	
 

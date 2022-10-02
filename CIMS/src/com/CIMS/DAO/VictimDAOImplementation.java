@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.CIMS.DTO.VictimsOfCrimeDTO;
 import com.CIMS.Exception.VictimException;
+import com.CIMS.bean.Victim;
 import com.CIMS.util.ConnectionClass;
 
 public class VictimDAOImplementation implements VictimDAO{
@@ -37,6 +38,26 @@ public class VictimDAOImplementation implements VictimDAO{
 			throw new VictimException(e.getMessage());
 		}
 		return victims;
+	}
+
+	@Override
+	public int addAVictim(Victim victim) throws VictimException {
+		int x = 0;
+		
+		try(Connection conn = ConnectionClass.getConnection()){
+			PreparedStatement ps = conn.prepareStatement("insert into victim(name, age, gender, address) values(?, ?, ?, ?);");
+			ps.setString(1, victim.getName());
+			ps.setInt(2, victim.getAge());
+			ps.setString(3, victim.getGender());
+			ps.setString(4, victim.getAddress());
+			x = ps.executeUpdate();
+			if(x==0)
+				throw new VictimException("Victim not added..");
+		}
+		catch(SQLException e) {
+			throw new VictimException(e.getMessage());
+		}
+		return x;
 	}
 	
 }
